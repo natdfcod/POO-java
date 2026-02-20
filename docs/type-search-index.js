@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html","k":"18"},{"p":"<Unnamed>","l":"CartaoCredito"},{"p":"<Unnamed>","l":"CarteiraCrypto"},{"p":"<Unnamed>","l":"CarteiraVip"},{"p":"<Unnamed>","l":"CotacaoAPI"},{"p":"<Unnamed>","l":"Main"},{"p":"<Unnamed>","l":"MetodoPagamento","k":"10"},{"p":"<Unnamed>","l":"Pix"}];updateSearchResults();

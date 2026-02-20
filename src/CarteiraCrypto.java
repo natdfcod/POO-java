@@ -66,4 +66,32 @@ public class CarteiraCrypto {
     public void exibirExtrato(){
         System.out.printf("Titular: %s\nSaldo: %.2f\n", this.titular, this.saldoBitcoin);
     }
+
+    /**
+     * Realiza a compra de frações de Bitcoin utilizando moeda fiduciária (Reais).
+     * <p>
+     * O método aciona o contrato de pagamento escolhido para cobrar o cliente,
+     * consulta a cotação atualizada na API externa e converte o montante pago
+     * para a quantia correspondente em BTC, creditando automaticamente no saldo da carteira.
+     * </p>
+     *
+     * @param valorReais O montante em Reais (BRL) que o cliente deseja investir.
+     * @param metodo     A instância do método de pagamento (Pix, CartaoCredito, etc.) que será utilizado.
+     */
+    public void comprarBitcoin(double valorReais, MetodoPagamento metodo) {
+        // 1. O cliente paga em Reais (O contrato da interface garante que isso funciona!)
+        metodo.processarPagamento(valorReais);
+
+        // 2. O sistema vai na internet e descobre quanto vale 1 Bitcoin hoje
+        CotacaoAPI api = new CotacaoAPI();
+        double precoAtual = api.obterPrecoBitcoinEmReais();
+
+        // 3. Faz a matemática: converte os Reais para fração de Bitcoin
+        double btcComprado = valorReais / precoAtual;
+
+        // 4. Deposita o Bitcoin fictício no saldo trancado (usando o método que você já criou)
+        this.depositar(btcComprado);
+
+        System.out.printf(">>> Cotação do momento: R$ %.2f | Você comprou: %.8f BTC\n\n", precoAtual, btcComprado);
+    }
 }

@@ -22,5 +22,19 @@ public class Main {
 
         nicolas.exibirExtrato();
         matheus.exibirExtrato();
+
+        //testando metodos de pagamento
+        MetodoPagamento meuPix = new Pix();
+        MetodoPagamento meuCartao = new CartaoCredito();
+        //comprando em R$
+        System.out.println("----Comprando 10000 em BTC no pix----");
+        nicolas.comprarBitcoin(10000.0, meuPix);
+
+        nicolas.exibirExtrato();
+
+        System.out.println("----Comprando 10000 em BTC no cartão----");
+        nicolas.comprarBitcoin(10000.0, meuCartao);
+
+        nicolas.exibirExtrato();
     }
 }

@@ -10,7 +10,8 @@ public class CarteiraVip extends CarteiraCrypto{
     /**
      * Construtor da CarteiraVip.
      * * @param titular O nome do dono da carteira.
-     * @param saldoInicial O saldo inicial de Bitcoins na carteira.
+     * @param nomeCrypto O nome da criptomoeda.
+     * @param saldoInicial O saldo inicial na carteira.
      */
     public CarteiraVip(String titular, String nomeCrypto, double saldoInicial){
         super(titular, nomeCrypto, saldoInicial);
@@ -19,16 +20,16 @@ public class CarteiraVip extends CarteiraCrypto{
     /**
      * Realiza um saque da carteira VIP.
      * <p>
-     * Sobrescreve o método da classe pai para remover a cobrança da taxa de 0.01 BTC.
+     * Sobrescreve o método da classe pai para remover a cobrança da taxa fixa de 0.01.
      * </p>
-     * * @param valor A quantidade exata de Bitcoin que se deseja sacar.
+     * * @param valor A quantidade exata da criptomoeda que se deseja sacar.
      * @return true se o saldo for suficiente e o saque for aprovado, false caso contrário.
      */
     @Override
     public boolean sacar(double valor) {
         if  (saldoCrypto >= valor) {
             saldoCrypto -= valor;
-            System.out.println("Saque aprovado!!");
+            System.out.println("Saque aprovado sem taxas!!");
             return true;
         }
         System.out.println("Saldo insuficiente!");

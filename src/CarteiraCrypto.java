@@ -2,9 +2,9 @@ import java.util.Scanner;
 /**
  * Representa uma carteira de criptomoedas padrão.
  * <p>
- * Esta classe base gerencia o titular e o saldo em Bitcoin, fornecendo
+ * Esta classe base gerencia o titular, a moeda escolhida e o saldo, fornecendo
  * as operações fundamentais como depósito, saque e transferência.
- * Em carteiras padrão, as operações de saque possuem uma taxa fixa.
+ * Em carteiras padrão, as operações de saque possuem uma taxa fixa de 0.01.
  * </p>
  */
 public class CarteiraCrypto {
@@ -15,7 +15,8 @@ public class CarteiraCrypto {
     /**
      * Construtor da CarteiraCrypto.
      * * @param titular O nome do dono da carteira.
-     * @param saldoInicial O saldo inicial de Crypto na carteira.
+     * @param nomeCripto O nome da criptomoeda (ex: Bitcoin, Ethereum).
+     * @param saldoInicial O saldo inicial de criptomoeda na carteira.
      */
     public CarteiraCrypto(String titular, String nomeCripto, double saldoInicial) {
         this.titular = titular;
@@ -25,7 +26,7 @@ public class CarteiraCrypto {
 
     /**
      * Realiza um depósito na carteira.
-     * * @param valor A quantidade de crypto a ser depositada. Deve ser maior que zero.
+     * * @param valor A quantidade da criptomoeda a ser depositada. Deve ser maior que zero.
      */
     public void depositar(double valor) {
         if (valor > 0) {
@@ -34,13 +35,13 @@ public class CarteiraCrypto {
     }
 
     /**
-     * Realiza um saque da carteira, aplicando uma taxa fixa de 1%.
-     * * @param valor A quantidade de Bitcoin que se deseja sacar (sem contar a taxa).
+     * Realiza um saque da carteira, aplicando uma taxa fixa de 0.01.
+     * * @param valor A quantidade da criptomoeda que se deseja sacar (sem contar a taxa).
      * @return true se o saldo for suficiente para cobrir o valor mais a taxa e o saque for aprovado, false caso contrário.
      */
     public boolean sacar(double valor) {
-        if  (saldoCrypto >= valor+0.01) {
-            saldoCrypto -= valor+0.01;
+        if  (saldoCrypto >= valor*0.01) {
+            saldoCrypto -= valor*0.01;
             System.out.println("Saque aprovado!! Taxa de 1% por saque aplicada");
             return true;
         }
@@ -49,37 +50,43 @@ public class CarteiraCrypto {
     }
 
     /**
-     * Transfere Bitcoins desta carteira para uma carteira de destino.
+     * Transfere criptomoedas desta carteira para uma carteira de destino.
      * <p>
-     * A transferência utiliza o método de saque, portanto, a taxa de saque
+     * A transferência só é permitida se ambas as carteiras operarem com a mesma moeda.
+     * A operação utiliza o método de saque, portanto, a taxa de saque
      * da carteira de origem será aplicada caso ela não seja isenta.
      * </p>
-     * * @param valor A quantidade de Bitcoin a ser transferida.
+     * * @param valor A quantidade da criptomoeda a ser transferida.
      * @param destino A {@link CarteiraCrypto} que receberá o valor transferido.
      */
     public void transferir(double valor, CarteiraCrypto destino) {
-        if (this.sacar(valor)) {
-            destino.depositar(valor);
+        if (this.nomeCripto.equals(destino.nomeCripto)) {
+            if (this.sacar(valor)) {
+                destino.depositar(valor);
+                System.out.println("tranferencia realizada com sucesso!");
+            }
+        } else  {
+            System.out.println("Moedas distintas!!");
         }
     }
 
     /**
-     * Exibe o extrato atual da carteira no console, mostrando titular e saldo.
+     * Exibe o extrato atual da carteira no console, mostrando titular, saldo e a moeda.
      */
     public void exibirExtrato(){
         System.out.printf("Titular: %s\nSaldo: %.2f %S\n", this.titular, this.saldoCrypto, this.nomeCripto);
     }
 
     /**
-     * Realiza a compra de frações de Bitcoin utilizando moeda fiduciária (Reais).
+     * Realiza a compra de frações de criptomoedas utilizando moeda fiduciária (Reais).
      * <p>
-     * O método aciona o contrato de pagamento escolhido para cobrar o cliente,
-     * consulta a cotação atualizada na API externa e converte o montante pago
-     * para a quantia correspondente em BTC, creditando automaticamente no saldo da carteira.
+     * O método aciona o contrato de pagamento escolhido para cobrar o cliente.
+     * Se a moeda for BITCOIN, consulta a cotação atualizada na API externa.
+     * Para outras moedas, solicita ao usuário a cotação manualmente via console.
      * </p>
      *
      * @param valorReais O montante em Reais (BRL) que o cliente deseja investir.
-     * @param metodo     A instância do método de pagamento (Pix, CartaoCredito, etc.) que será utilizado.
+     * @param metodo     A instância do método de pagamento (Pix, PagamentoCartao, etc.) que será utilizado.
      */
     public void comprarCypto(double valorReais, MetodoPagamento metodo) {
         Scanner sc = new Scanner(System.in);

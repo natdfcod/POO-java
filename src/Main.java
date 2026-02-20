@@ -12,29 +12,39 @@ public class Main {
      * * @param args Argumentos de linha de comando (não utilizados neste projeto).
      */
     public static void main(String[] args) {
-        CarteiraVip nicolas = new CarteiraVip("Nicolas", 5);
-        CarteiraCrypto matheus = new CarteiraCrypto("Matheus", 1.5);
+        CarteiraVip nicolasBTC = new CarteiraVip("Nicolas", "Bitcoin", 1.0);
+        CarteiraCrypto matheusETHER = new CarteiraCrypto("Matheus", "Etherium", 1.5);
 
-        nicolas.transferir(2, matheus);
+        nicolasBTC.transferir(2, matheusETHER);
 
-        nicolas.sacar(0.5);
-        matheus.sacar(0.5);
+        nicolasBTC.sacar(0.5);
+        matheusETHER.sacar(0.5);
 
-        nicolas.exibirExtrato();
-        matheus.exibirExtrato();
+        nicolasBTC.exibirExtrato();
+        matheusETHER.exibirExtrato();
 
         //testando metodos de pagamento
-        MetodoPagamento meuPix = new Pix();
-        MetodoPagamento meuCartao = new CartaoCredito();
-        //comprando em R$
+        MetodoPagamento meuPix = new PagamentoPix();
+        MetodoPagamento meuCartao = new PagamentoCartao();
+        //comprando BTC em R$
         System.out.println("----Comprando 10000 em BTC no pix----");
-        nicolas.comprarBitcoin(10000.0, meuPix);
+        nicolasBTC.comprarCypto(10000.0, meuPix);
 
-        nicolas.exibirExtrato();
+        nicolasBTC.exibirExtrato();
 
         System.out.println("----Comprando 10000 em BTC no cartão----");
-        nicolas.comprarBitcoin(10000.0, meuCartao);
+        nicolasBTC.comprarCypto(10000.0, meuCartao);
 
-        nicolas.exibirExtrato();
+        //comprando ETHER em R$
+        System.out.println("----Comprando 10000 em ETHER no pix----");
+        matheusETHER.comprarCypto(10000.0, meuPix);
+
+        matheusETHER.exibirExtrato();
+
+        System.out.println("----Comprando 10000 em ETHER no cartão----");
+        matheusETHER.comprarCypto(10000.0, meuCartao);
+
+        nicolasBTC.exibirExtrato();
+        matheusETHER.exibirExtrato();
     }
 }

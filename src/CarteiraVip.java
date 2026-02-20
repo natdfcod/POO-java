@@ -10,10 +10,10 @@ public class CarteiraVip extends CarteiraCrypto{
     /**
      * Construtor da CarteiraVip.
      * * @param titular O nome do dono da carteira.
-     * @param saldoBitcoin O saldo inicial de Bitcoins na carteira.
+     * @param saldoInicial O saldo inicial de Bitcoins na carteira.
      */
-    public CarteiraVip(String titular, double saldoBitcoin){
-        super(titular, saldoBitcoin);
+    public CarteiraVip(String titular, String nomeCrypto, double saldoInicial){
+        super(titular, nomeCrypto, saldoInicial);
     }
 
     /**
@@ -26,8 +26,8 @@ public class CarteiraVip extends CarteiraCrypto{
      */
     @Override
     public boolean sacar(double valor) {
-        if  (saldoBitcoin >= valor) {
-            saldoBitcoin -= valor;
+        if  (saldoCrypto >= valor) {
+            saldoCrypto -= valor;
             System.out.println("Saque aprovado!!");
             return true;
         }

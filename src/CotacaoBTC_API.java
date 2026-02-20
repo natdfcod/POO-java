@@ -12,7 +12,7 @@ import java.net.http.HttpResponse;
  *
  * @author Nicolas
  */
-public class CotacaoAPI {
+public class CotacaoBTC_API {
 
     /**
      * Conecta-se à API pública da Binance para obter a cotação atualizada do par BTC/BRL.
